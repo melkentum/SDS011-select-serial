@@ -32,9 +32,8 @@ static const byte SLEEPCMD[19] = {
 	0xAB	// tail
 };
 
-SDS011::SDS011(void) {
-
-}
+SDS011::SDS011(Stream& serial):
+sds_data(serial) {}
 
 // --------------------------------------------------------
 // SDS011:read
@@ -48,8 +47,8 @@ int SDS011::read(float *p25, float *p10) {
 	int checksum_is;
 	int checksum_ok = 0;
 	int error = 1;
-	while ((sds_data->available() > 0) && (sds_data->available() >= (10-len))) {
-		buffer = sds_data->read();
+	while ((sds_data.available() > 0) && (sds_data.available() >= (10-len))) {
+		buffer = sds_data.read();
 		value = int(buffer);
 		switch (len) {
 			case (0): if (value != 170) { len = -1; }; break;
@@ -80,11 +79,11 @@ int SDS011::read(float *p25, float *p10) {
 // --------------------------------------------------------
 void SDS011::sleep() {
 	for (uint8_t i = 0; i < 19; i++) {
-		sds_data->write(SLEEPCMD[i]);
+		sds_data.write(SLEEPCMD[i]);
 	}
-	sds_data->flush();
-	while (sds_data->available() > 0) {
-		sds_data->read();
+	sds_data.flush();
+	while (sds_data.available() > 0) {
+		sds_data.read();
 	}
 }
 
@@ -92,19 +91,7 @@ void SDS011::sleep() {
 // SDS011:wakeup
 // --------------------------------------------------------
 void SDS011::wakeup() {
-	sds_data->write(0x01);
-	sds_data->flush();
-}
-
-void SDS011::begin(uint8_t pin_rx, uint8_t pin_tx) {
-	_pin_rx = pin_rx;
-	_pin_tx = pin_tx;
-
-	SoftwareSerial *softSerial = new SoftwareSerial(_pin_rx, _pin_tx);
-
-	//Initialize the 'Wire' class for I2C-bus communication.
-	softSerial->begin(9600);
-
-	sds_data = softSerial;
+	sds_data.write(0x01);
+	sds_data.flush();
 }
 
