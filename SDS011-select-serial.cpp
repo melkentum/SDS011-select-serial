@@ -8,7 +8,7 @@
 //		- The iNovaFitness SDS011 datasheet
 //
 
-#include "SDS011.h"
+#include "SDS011-select-serial.h"
 
 static const byte SLEEPCMD[19] = {
 	0xAA,	// head

@@ -1,19 +1,20 @@
 // SDS011 dust sensor example
+// for use with additional Serial ports
+// like Arduino Mega
 // -----------------------------
-//
-// By R. Zschiegner (rz@madavi.de).
-// April 2016
 
-#include <SDS011.h>
+#include <SDS011-select-serial.h>
 
 float p10,p25;
 int error;
 
-SDS011 my_sds;
+SDS011 my_sds(Serial1);
 
 void setup() {
-	my_sds.begin(D1,D2);
+	// initialize normal Serial port
 	Serial.begin(9600);
+	// initalize SDS Serial Port
+	Serial1.begin(9600);
 }
 
 void loop() {

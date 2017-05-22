@@ -14,9 +14,6 @@
 	#include "WProgram.h"
 #endif
 
-#include <SoftwareSerial.h>
-
-
 class SDS011 {
 	public:
 		SDS011(Stream& serial);
