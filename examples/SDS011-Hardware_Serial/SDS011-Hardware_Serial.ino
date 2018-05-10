@@ -1,6 +1,6 @@
 // SDS011 dust sensor example
 // for use with additional Serial ports
-// like Arduino Mega
+// like Arduino Mega or senseBox MCU
 // -----------------------------
 
 #include <SDS011-select-serial.h>
